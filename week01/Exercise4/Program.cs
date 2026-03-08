@@ -31,6 +31,25 @@ class Program
             Console.WriteLine("Sum of numbers: " + sum);
             Console.WriteLine("Average of numbers: " + average);
             Console.WriteLine("Maximum number: " + max);
+
+            var positiveNumbers = numbers.Where(n => n > 0);
+            if (positiveNumbers.Any())
+            {
+                int smallestPositive = positiveNumbers.Min();
+                Console.WriteLine("Smallest positive number: " + smallestPositive);
+            }
+            else
+            {
+                Console.WriteLine("No positive number was entered. ");
+            }
+
+            numbers.Sort();
+            Console.WriteLine("Sorted list of numbers: ");
+            foreach (var number in numbers)
+            {
+                Console.Write(number + "");
+            }
+            Console.WriteLine();
         }
         else
         {
