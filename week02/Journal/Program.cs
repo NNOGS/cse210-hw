@@ -2,62 +2,74 @@ using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks.Dataflow;
 
+/*
+Creativity Feature:
+This program includes a word count feature that calculates the
+number of words in each journal entry and displays it when the
+entry is shown.
+*/
+
 class Program
 {
     static void Main(string[] args)
     {
         Console.WriteLine("Hello World! This is the Journal Project.");
 
-        Job job1 = new Job();
-        job1._jobTitle = "Software Engineer";
-        job1._company = "Microsoft";
-        job1._startYear = 2019;
-        job1._endYear = 2022;
+        Journal journal = new Journal();
+        PromptGenerator promptGenerator = new PromptGenerator();
 
-        Job job2 = new Job();
-        job2._jobTitle = "Product Manager";
-        job2._company = "Apple";
-        job2._startYear = 2022;
-        job2._endYear = 2024;
+        int choice = 0;
 
-        Resume myResume = new Resume();
-        myResume._name = "John Smith";
-
-        myResume._jobs.Add(job1);
-        myResume._jobs.Add(job2);
-
-        myResume.Display();
-
-    }
-}
-    class Job
-    {
-       public string _company;
-       public string _jobTitle;
-       public int _startYear;
-       public int _endYear;
-    
-    public void Display()
-    {
-        Console.WriteLine($"{_jobTitle} ({_company}) {_startYear}-{_endYear}");
-    }
-}
-
-class Resume
-{
-    public string _name;
-    public List<Job> _jobs = new List<Job>();
-
-    public void Display()
-    {
-        Console.WriteLine($"Name: {_name}");
-        Console.WriteLine("Jobs:");
-
-        foreach (Job job in _jobs)
+        while (choice != 5)
         {
-            job.Display();
+            Console.WriteLine("Menu Options:");
+            Console.WriteLine("1. Write");
+            Console.WriteLine("2. Display");
+            Console.WriteLine("3. Save");
+            Console.WriteLine("4. Load");
+            Console.WriteLine("5. Quit");
+
+            Console.Write("Select a choice: ");
+            choice = int.Parse(Console.ReadLine());
+
+            if (choice == 1)
+            {
+                string prompt = promptGenerator.GetRandomPrompt();
+                Console.WriteLine(prompt);
+
+                Console.Write("> ");
+                string response = Console.ReadLine();
+
+                Entry entry = new Entry();
+                entry._promptText = prompt;
+                entry._entryText = response;
+                entry._date = DateTime.Now.ToShortDateString();
+
+                journal.AddEntry(entry);
+            }
+
+            else if (choice == 2)
+            {
+                journal.DisplayAll();
+            }
+
+            else if (choice == 3)
+            {
+                Console.Write("Enter filename: ");
+                string file = Console.ReadLine();
+
+                journal.SaveToFile(file);
+            }
+
+            else if (choice == 4)
+            {
+                Console.Write("Enter filename: ");
+                string file = Console.ReadLine();
+
+                journal.LoadFromFile(file);
+            }
         }
-
     }
-
 }
+
+       
