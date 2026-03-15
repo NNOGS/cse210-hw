@@ -57,7 +57,7 @@ class Resume
         {
             job.Display();
         }
-    
-    }   
+
+    }
 
 }
